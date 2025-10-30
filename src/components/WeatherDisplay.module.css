@@ -5,19 +5,19 @@
 }
 
 .weatherTemp {
-    font-size: 20px;
+    font-size: clamp(16px, 3.2vw, 20px);
     font-weight: 600;
 }
 
 .weatherDesc {
-    font-size: 14px;
+    font-size: clamp(12px, 2.8vw, 14px);
     display: flex;
     align-items: center;
     gap: 4px;
 }
 
 .weatherIcon {
-    margin-top: 2vw;
-    width: 2vw;
-    height: 2vw;
+    margin-top: 8px;
+    width: clamp(24px, 6vw, 48px);
+    height: clamp(24px, 6vw, 48px);
 }

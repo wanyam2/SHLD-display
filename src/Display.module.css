@@ -1,17 +1,56 @@
 .root {
     position: relative;
-    width: 960px;
-    height: 241px;
+    width: min(100%, 960px);
     background: #fff;
     border: 1px solid #000;
+    border-radius: 12px;
+    padding: 16px 20px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 260px;
+    grid-auto-rows: auto;
+    align-items: center;
+    column-gap: 20px;
+    row-gap: 16px;
+}
+
+/* Place items on a 2-row layout: header row, content row */
+.logo {
+    grid-column: 1 / 1;
+    grid-row: 1;
+    width: clamp(28px, 4vw, 44px);
+    height: auto;
+}
+
+.subtitle {
+    grid-column: 2 / 4;
+    grid-row: 1;
+    font-family: "Pretendard-Light", Helvetica, Arial, sans-serif;
+    font-size: clamp(14px, 2.4vw, 20px);
+}
+
+.control {
+    grid-column: 1 / 1;
+    grid-row: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.centerClock {
+    grid-column: 2 / 2;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
 }
 
 .sidePanel {
-    position: absolute;
-    top: 15px;
-    right: 24px;
-    width: 156px;
-    height: 192px;
+    grid-column: 3 / 3;
+    grid-row: 2;
+    width: 100%;
+    max-width: 260px;
     padding: 12px;
     display: flex;
     flex-direction: column;
@@ -20,38 +59,37 @@
     border-radius: 13px;
 }
 
-.centerClock {
-    position: absolute;
-    top: 24px;
-    left: 454px;
-}
+/* Responsive: stack vertically on small screens */
+@media (max-width: 768px) {
+    .root {
+        grid-template-columns: 1fr;
+    }
 
-.control {
-    position: absolute;
-    top: 100px;
-    left: 20px;
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-}
+    .logo {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+    }
 
-.logo {
-    position: absolute;
-    top: 23px;
-    left: 24px;
-    font-family: "Pretendard-Light", Helvetica, Arial, sans-serif;
-    font-size: 20px;
-}
+    .subtitle {
+        grid-column: 1;
+        grid-row: 2;
+    }
 
-.subtitle {
-    position: absolute;
-    top: 56px;
-    left: 397px;
-    font-family: "Pretendard-Light", Helvetica, Arial, sans-serif;
-    font-size: 20px;
-}
+    .centerClock {
+        grid-column: 1;
+        grid-row: 3;
+        min-height: 100px;
+    }
 
-.logo {
-    width: 3vw;
-    height: 3vw;
+    .sidePanel {
+        grid-column: 1;
+        grid-row: 4;
+        max-width: none;
+    }
+
+    .control {
+        grid-column: 1;
+        grid-row: 5;
+    }
 }
