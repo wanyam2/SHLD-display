@@ -1,115 +1,117 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import mqtt from "mqtt"; // pnpm add mqtt
 import styles from "./Display.module.css";
 
-// 모든 자식 컴포넌트 임포트
 import TimeDisplay from "./components/TimeDisplay.jsx";
 import WeatherDisplay from "./components/WeatherDisplay";
 import ClockDisplay from "./components/ClockDisplay";
 import LightControl from "./components/LightControl";
 import OccupancyDisplay from "./components/OccupancyDisplay";
-import AirQualityDisplay from "./components/AirQualityDisplay"; // <-- 1. 공기질 컴포넌트 임포트
+import AirQualityDisplay from "./components/AirQualityDisplay";
 import logo from "./assets/pause_logo.png";
 
-// ... (ESP32_WS_ADDRESS 설정 ...)
-const ESP32_WS_ADDRESS = "ws://192.168.0.50/ws";
+/** ====== MQTT 설정 ======
+ * Vite .env 예시
+ * VITE_MQTT_URL=ws://192.168.0.10:8083/mqtt
+ * VITE_DEVICE_ID=uno01
+ * (익명 허용이 아니면 VITE_MQTT_USERNAME / VITE_MQTT_PASSWORD 도 설정)
+ */
+const MQTT_URL = import.meta.env.VITE_MQTT_URL || "ws://192.168.0.10:8083/mqtt";
+const DEVICE_ID = import.meta.env.VITE_DEVICE_ID || "uno01";
+const TOPIC_STATE = `devices/${DEVICE_ID}/state`;
+const TOPIC_CMD = `devices/${DEVICE_ID}/cmd`;
 
-// ... (formatTime 함수 ...)
+// mm:ss 포맷
 const formatTime = (totalSeconds) => {
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    const paddedMinutes = String(minutes).padStart(2, '0');
-    const paddedSeconds = String(seconds).padStart(2, '0');
-    return `${paddedMinutes}:${paddedSeconds}`;
+    const minutes = Math.floor((totalSeconds || 0) / 60);
+    const seconds = Math.max(0, (totalSeconds || 0) % 60);
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 };
 
-// --- Display 컴포넌트 시작 ---
 const Display = () => {
-    // 1. ESP32에서 수신할 모든 상태를 useState로 관리
+    // 보드 상태
     const [isConnected, setIsConnected] = useState(false);
     const [remainingTime, setRemainingTime] = useState(0);
     const [lightOn, setLightOn] = useState(true);
     const [lightPercent, setLightPercent] = useState(70);
-    const [occupancyState, setOccupancyState] = useState(0);
-    const [pm25, setPm25] = useState(0); // <-- 2. 공기질(PM2.5) state 추가
+    const [occupancyState, setOccupancyState] = useState(0); // 0:IDLE, 1:IN_USE, 2:TIME_UP
+    const [pm25, setPm25] = useState(0);
 
-    // ... (ws = useRef(null) ...)
-    const ws = useRef(null);
-
-    // 2. 컴포넌트 마운트 시 웹소켓 연결 (useEffect)
+    // MQTT 연결
     useEffect(() => {
-        // ... (ws.current = new WebSocket ... )
-        ws.current = new WebSocket(ESP32_WS_ADDRESS);
+        const client = mqtt.connect(MQTT_URL, {
+            username: import.meta.env.VITE_MQTT_USERNAME || undefined,
+            password: import.meta.env.VITE_MQTT_PASSWORD || undefined,
+            keepalive: 30,
+            reconnectPeriod: 2000,
+        });
 
-        // ... (onopen, onclose ...)
-        ws.current.onopen = () => {
-            console.log("ESP32와 연결되었습니다.");
+        client.on("connect", () => {
             setIsConnected(true);
-        };
+            client.subscribe(TOPIC_STATE, { qos: 0 });
+        });
 
-        ws.current.onclose = () => {
-            console.log("ESP32와 연결이 끊겼습니다.");
-            setIsConnected(false);
-        };
+        client.on("reconnect", () => setIsConnected(false));
+        client.on("close", () => setIsConnected(false));
+        client.on("error", () => setIsConnected(false));
 
-        // 3. ESP32로부터 메시지(데이터) 수신 시
-        ws.current.onmessage = (event) => {
+        client.on("message", (topic, payload) => {
+            if (topic !== TOPIC_STATE) return;
             try {
-                const data = JSON.parse(event.data);
-                console.log("데이터 수신:", data);
-
-                if (data.hasOwnProperty("remainingTime")) {
-                    setRemainingTime(data.remainingTime);
+                const data = JSON.parse(payload.toString("utf-8"));
+                if (Object.prototype.hasOwnProperty.call(data, "remainingTime")) setRemainingTime(Number(data.remainingTime) || 0);
+                if (Object.prototype.hasOwnProperty.call(data, "lightOn")) setLightOn(Boolean(data.lightOn));
+                if (Object.prototype.hasOwnProperty.call(data, "brightness")) {
+                    const percent = Math.round((Number(data.brightness) || 0) / 2.55);
+                    setLightPercent(Math.max(0, Math.min(100, percent)));
                 }
-                if (data.hasOwnProperty("lightOn")) {
-                    setLightOn(data.lightOn);
-                }
-                if (data.hasOwnProperty("brightness")) {
-                    setLightPercent(Math.round(data.brightness / 2.55));
-                }
-                if (data.hasOwnProperty("currentState")) {
-                    setOccupancyState(data.currentState);
-                }
-
-                // --- 3. PM2.5 데이터 수신 ---
-                if (data.hasOwnProperty("pm25")) {
-                    setPm25(data.pm25);
-                }
-                // -----------------------------
-
-            } catch (error) {
-                console.error("수신 데이터 파싱 오류:", error);
+                if (Object.prototype.hasOwnProperty.call(data, "currentState")) setOccupancyState(Number(data.currentState) || 0);
+                if (Object.prototype.hasOwnProperty.call(data, "pm25")) setPm25(Number(data.pm25) || 0);
+            } catch (e) {
+                console.error("MQTT payload parse error:", e);
             }
-        };
+        });
 
-        // ... (useEffect cleanup ...)
         return () => {
-            ws.current.close();
+            client.end(true);
         };
-    }, []); // 빈 배열: 처음에 한 번만 실행
+    }, []);
 
+    // 명령 발행
+    const publishCmd = (obj) => {
+        try {
+            const client = mqtt.connect(MQTT_URL, {
+                username: import.meta.env.VITE_MQTT_USERNAME || undefined,
+                password: import.meta.env.VITE_MQTT_PASSWORD || undefined,
+                keepalive: 10,
+                reconnectPeriod: 0, // 단발 연결
+            });
+            client.on("connect", () => {
+                client.publish(TOPIC_CMD, JSON.stringify(obj), { qos: 0 }, () => client.end(true));
+            });
+            client.on("error", () => client.end(true));
+        } catch (e) {
+            console.error("publish error", e);
+        }
+    };
 
-    // 4. ESP32로 명령을 보내는 핸들러 함수
-    // ... (handleBrightnessChange, handleLightStateChange ...)
+    // 밝기 변경 (0~100 → 0~255)
     const handleBrightnessChange = (percent) => {
         setLightPercent(percent);
-        if (ws.current?.readyState === WebSocket.OPEN) {
-            const brightness255 = Math.round(percent * 2.55);
-            ws.current.send(JSON.stringify({ brightness: brightness255 }));
-        }
+        const brightness255 = Math.round(Math.max(0, Math.min(100, percent)) * 2.55);
+        publishCmd({ brightness: brightness255 });
     };
+
+    // 전원 토글
     const handleLightStateChange = (isOn) => {
         setLightOn(isOn);
-        if (ws.current?.readyState === WebSocket.OPEN) {
-            ws.current.send(JSON.stringify({ lightOn: isOn }));
-        }
+        publishCmd({ lightOn: !!isOn });
     };
 
-
-    // 5. 렌더링
     return (
         <div className={styles.root}>
-            {/* 뒤집힌 재실 현황판 */}
-            <div style={{ gridColumn: 1, gridRow: 1, alignSelf: 'start', marginLeft: '70px', zIndex: 10 }}>
+            {/* 재실 현황판 */}
+            <div style={{ gridColumn: 1, gridRow: 1, alignSelf: "start", marginLeft: "70px", zIndex: 10 }}>
                 <OccupancyDisplay isOccupied={occupancyState !== 0} />
             </div>
 
@@ -123,8 +125,8 @@ const Display = () => {
             <div className={styles.centerClock}>
                 <ClockDisplay remainingTimeStr={formatTime(remainingTime)} />
                 <span className={styles.subtitle}>
-                     {isConnected ? "편안한 시간 보내세요" : "연결 중..."}
-                </span>
+          {isConnected ? "편안한 시간 보내세요" : "연결 중..."}
+        </span>
             </div>
 
             {/* 컨트롤 패널 */}
