@@ -2,8 +2,9 @@
     background: #e3f2ff;
     border-radius: 13px;
     padding: 12px;
-    margin-top: 2vw;
-    width: 156px;
+    margin-top: 8px;
+    width: 100%;
+    max-width: 220px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -17,7 +18,7 @@
 }
 
 .controlValue {
-    font-size: 20px;
+    font-size: clamp(16px, 3.2vw, 20px);
     font-weight: 700;
 }
 
@@ -28,8 +29,8 @@
 
 .controlButtons button {
     flex: 1;
-    padding: 4px 8px;
-    font-size: 14px;
+    padding: 6px 10px;
+    font-size: clamp(12px, 2.8vw, 14px);
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -51,7 +52,7 @@
     cursor: pointer;
     background: linear-gradient(to right, #FFF478, #FFFFFF);
     border-radius: 6px;
-    height: 1.3vw;
+    height: clamp(6px, 1.3vw, 10px);
     outline: none;
     -webkit-appearance: none;
 }
@@ -70,8 +71,8 @@
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 2vw;
-    height: 2vw;
+    width: clamp(12px, 4vw, 24px);
+    height: clamp(12px, 4vw, 24px);
     background: #FFF478;
     border-radius: 50%;
     cursor: pointer;
@@ -83,5 +84,11 @@
     background: #000000;
     border-radius: 50%;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .controlBox {
+        max-width: none;
+    }
 }
 

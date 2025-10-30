@@ -1,15 +1,15 @@
 .container {
     position: relative;
-    width: 53px;
-    height: 28px;
+    width: 100%;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-
 .time {
-    position: absolute;
-    top: 4px;
-    left: 0;
     font-family: "Pretendard-Regular", Helvetica, Arial, sans-serif;
-    font-size: 20px;
+    font-size: clamp(32px, 10vw, 120px);
     white-space: nowrap;
+    line-height: 1.05;
 }
