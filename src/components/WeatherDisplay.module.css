@@ -5,8 +5,8 @@
 }
 
 .weatherTemp {
-    font-size: clamp(16px, 3.2vw, 20px);
-    font-weight: 600;
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 700;
 }
 
 .weatherDesc {

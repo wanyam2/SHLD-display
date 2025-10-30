@@ -2,7 +2,7 @@
     position: relative;
     width: min(100%, 960px);
     background: #fff;
-    border: 1px solid #000;
+    border: 2px solid #000;
     border-radius: 12px;
     padding: 16px 20px;
 
@@ -23,10 +23,10 @@
 }
 
 .subtitle {
-    grid-column: 2 / 4;
-    grid-row: 1;
     font-family: "Pretendard-Light", Helvetica, Arial, sans-serif;
     font-size: clamp(14px, 2.4vw, 20px);
+    text-align: center;
+    margin-top: 8px;
 }
 
 .control {
@@ -41,8 +41,10 @@
     grid-column: 2 / 2;
     grid-row: 2;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 6px;
     min-height: 80px;
 }
 
@@ -71,25 +73,20 @@
         justify-self: start;
     }
 
-    .subtitle {
-        grid-column: 1;
-        grid-row: 2;
-    }
-
     .centerClock {
         grid-column: 1;
-        grid-row: 3;
+        grid-row: 2;
         min-height: 100px;
     }
 
     .sidePanel {
         grid-column: 1;
-        grid-row: 4;
+        grid-row: 3;
         max-width: none;
     }
 
     .control {
         grid-column: 1;
-        grid-row: 5;
+        grid-row: 4;
     }
 }

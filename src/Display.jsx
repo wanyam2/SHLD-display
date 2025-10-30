@@ -16,6 +16,7 @@ const Display = () => (
 
         <div className={styles.centerClock}>
             <ClockDisplay />
+            <span className={styles.subtitle}>편안한 시간 보내세요</span>
         </div>
 
         <div className={styles.control}>
@@ -24,7 +25,6 @@ const Display = () => (
         </div>
 
         <img src={logo} alt="로고" className={styles.logo} />
-        <span className={styles.subtitle}>편안한 시간 보내세요</span>
     </div>
 );
 

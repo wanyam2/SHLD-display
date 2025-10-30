@@ -9,12 +9,14 @@ const WeatherDisplay = () => {
 
     return (
         <div className={styles.weatherWrapper}>
-            <img
-            src={`https://openweathermap.org/img/wn/${weather.icon}.png`}
-            alt="날씨 아이콘"
-            className={styles.weatherIcon}
-        />
-            <span>현재기온</span>
+            <div className={styles.weatherDesc}>
+                <img
+                    src={`https://openweathermap.org/img/wn/${weather.icon}.png`}
+                    alt="날씨 아이콘"
+                    className={styles.weatherIcon}
+                />
+                <span>현재기온</span>
+            </div>
             <span className={styles.weatherTemp}>{weather.temp}°C</span>
         </div>
     );
