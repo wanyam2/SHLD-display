@@ -1,0 +1,31 @@
+/*
+ * 핵심: 이 wrapper 클래스가 컴포넌트 전체를 180도 뒤집습니다.
+ * 거꾸로 매달린 투명 디스플레이에 똑바로 표시됩니다.
+ */
+.wrapper {
+    transform: rotate(180deg);
+
+    /* --- 아래는 투명 디스플레이용 꾸미기 예시입니다 --- */
+
+    /* 배경은 투명하게 */
+    background-color: transparent;
+
+    /* 글자가 잘 보이도록 흰색 테두리 및 글자 (예시) */
+    border: 3px solid #FFFFFF;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    padding: 12px 24px;
+    display: inline-block; /* 내용물 크기에 맞게 조절 */
+}
+
+.text {
+    font-family: "Pretendard-Bold", Helvetica, sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+
+    /* 어두운 투명 디스플레이에서 잘 보이도록 밝은 색상 (예시) */
+    color: #FFFFFF;
+
+    /* 글자에도 그림자 효과 (선명도) */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}

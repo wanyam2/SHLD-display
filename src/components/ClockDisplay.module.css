@@ -9,7 +9,7 @@
 
 .time {
     font-family: "Pretendard-Regular", Helvetica, Arial, sans-serif;
-    font-size: clamp(32px, 10vw, 120px);
+    font-size: 28px;
     white-space: nowrap;
     line-height: 1.05;
 }
