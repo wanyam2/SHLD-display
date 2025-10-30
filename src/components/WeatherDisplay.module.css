@@ -1,0 +1,23 @@
+.weatherWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.weatherTemp {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.weatherDesc {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.weatherIcon {
+    margin-top: 2vw;
+    width: 2vw;
+    height: 2vw;
+}

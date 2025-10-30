@@ -1,0 +1,57 @@
+.root {
+    position: relative;
+    width: 960px;
+    height: 241px;
+    background: #fff;
+    border: 1px solid #000;
+}
+
+.sidePanel {
+    position: absolute;
+    top: 15px;
+    right: 24px;
+    width: 156px;
+    height: 192px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #e3f2ff;
+    border-radius: 13px;
+}
+
+.centerClock {
+    position: absolute;
+    top: 24px;
+    left: 454px;
+}
+
+.control {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.logo {
+    position: absolute;
+    top: 23px;
+    left: 24px;
+    font-family: "Pretendard-Light", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+}
+
+.subtitle {
+    position: absolute;
+    top: 56px;
+    left: 397px;
+    font-family: "Pretendard-Light", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+}
+
+.logo {
+    width: 3vw;
+    height: 3vw;
+}

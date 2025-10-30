@@ -1,0 +1,87 @@
+.controlBox {
+    background: #e3f2ff;
+    border-radius: 13px;
+    padding: 12px;
+    margin-top: 2vw;
+    width: 156px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: "Pretendard-Regular", Helvetica, sans-serif;
+}
+
+.controlLabel {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+}
+
+.controlValue {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.controlButtons {
+    display: flex;
+    gap: 6px;
+}
+
+.controlButtons button {
+    flex: 1;
+    padding: 4px 8px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: "Pretendard-Regular", sans-serif;
+}
+
+.on {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.off {
+    background-color: #CDCDCD;
+    color: black;
+}
+
+.slider {
+    width: 100%;
+    cursor: pointer;
+    background: linear-gradient(to right, #FFF478, #FFFFFF);
+    border-radius: 6px;
+    height: 1.3vw;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.slider::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 6px;
+    background: linear-gradient(to right, #FFF478, #FFFFFF);
+}
+.slider::-moz-range-track {
+    height: 6px;
+    border-radius: 6px;
+    background: linear-gradient(to right, #FFF478, #FFFFFF);
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2vw;
+    height: 2vw;
+    background: #FFF478;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -9px;
+}
+.slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #000000;
+    border-radius: 50%;
+    cursor: pointer;
+}
+

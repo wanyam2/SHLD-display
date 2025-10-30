@@ -1,0 +1,8 @@
+/* 전체 앱 배경 및 가운데 정렬 */
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 화면 전체 높이 */
+  background-color: #f0f2f5; /* 배경색은 취향에 따라 */
+}

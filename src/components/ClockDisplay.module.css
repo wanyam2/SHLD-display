@@ -1,0 +1,15 @@
+.container {
+    position: relative;
+    width: 53px;
+    height: 28px;
+}
+
+
+.time {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    font-family: "Pretendard-Regular", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    white-space: nowrap;
+}
