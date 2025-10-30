@@ -18,7 +18,7 @@
 }
 
 .controlValue {
-    font-size: clamp(16px, 3.2vw, 20px);
+    font-size: clamp(24px, 5vw, 36px);
     font-weight: 700;
 }
 
@@ -29,12 +29,17 @@
 
 .controlButtons button {
     flex: 1;
-    padding: 6px 10px;
-    font-size: clamp(12px, 2.8vw, 14px);
+    padding: 10px 12px;
+    font-size: clamp(14px, 3vw, 16px);
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-family: "Pretendard-Regular", sans-serif;
+}
+
+.controlButtons button:nth-child(1),
+.controlButtons button:nth-child(2) {
+    background-color: #eeeeee;
 }
 
 .on {
