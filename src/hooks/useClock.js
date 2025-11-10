@@ -1,15 +1,23 @@
-import { useEffect, useState } from "react";
-import dayjs from "dayjs";
-import "dayjs/locale/ko";
-dayjs.locale("ko");
+import { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 
-export default function useClock() {
+dayjs.locale('ko');
+
+const useClock = () => {
     const [now, setNow] = useState(dayjs());
 
     useEffect(() => {
-        const id = setInterval(() => setNow(dayjs()), 1000); // ← 건들지 마세요
-        return () => clearInterval(id);
+        const timer = setInterval(() => {
+            setNow(dayjs());
+        }, 1000);
+
+        return () => {
+            clearInterval(timer);
+        };
     }, []);
 
     return now;
-}
+};
+
+export default useClock;

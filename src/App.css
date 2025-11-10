@@ -1,8 +1,20 @@
-/* 전체 앱 배경 및 가운데 정렬 */
+/* 전역 폰트 및 배경색 설정 */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+body {
+    font-family: "Pretendard-Regular", Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5; /* 디자인 이미지와 유사한 배경색 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
 .App {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* 화면 전체 높이 */
-  background-color: #f0f2f5; /* 배경색은 취향에 따라 */
+    width: 200%;
+    max-width: 1060px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
