@@ -1,7 +1,7 @@
 import { SerialPort, ReadlineParser } from 'serialport';
 import { WebSocketServer } from 'ws';
 
-const SERIAL_PORT_PATH = '/dev/cu.usbmodem14302'; // 사용자의 포트 경로
+const SERIAL_PORT_PATH = '/dev/cu.usbmodem14102'; // 사용자의 포트 경로
 const BAUD_RATE = 115200;
 const WEBSOCKET_PORT = 8080;
 
